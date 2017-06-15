@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baizhi.dao.DealtypeMapper">
+  <resultMap id="BaseResultMap" type="com.baizhi.entity.Dealtype">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="flag" jdbcType="VARCHAR" property="flag" />
+  </resultMap>
+  <resultMap id="BaseResultMap1" type="com.baizhi.entity.Dealtype">
+    <id column="oid" jdbcType="VARCHAR" property="id" />
+    <collection property="dealtypes" javaType="java.util.List" ofType="com.baizhi.entity.Dealtype">
+      <id column="tid" jdbcType="VARCHAR" property="id" />
+      <result column="tname" jdbcType="VARCHAR" property="name" />
+      <result column="tflag" jdbcType="VARCHAR" property="flag" />
+    </collection>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, flag
+  </sql>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from jiuwen.jw_dealtype
+  </select>
+  <select id="selectAllone" resultMap="BaseResultMap" parameterType="String">
+    select
+    id, name, flag,parentid
+    from jiuwen.jw_dealtype
+    where flag=#{flag}
+  </select>
+  <select id="selecttwoByone" parameterType="String" resultMap="BaseResultMap1">
+    select o.id oid,
+       t.id tid,t.name tname,t.flag tflag
+from jiuwen.jw_dealtype o join jiuwen.jw_dealtype t on o.id=t.parentid
+where o.id=#{id}
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jiuwen.jw_dealtype
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from jiuwen.jw_dealtype
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insertOne" parameterType="com.baizhi.entity.Dealtype">
+    insert into jiuwen.jw_dealtype values(#{id},#{name},NULL,#{flag})
+  </insert>
+  <insert id="insertTwo" parameterType="com.baizhi.entity.Dealtype">
+    insert into jiuwen.jw_dealtype values(#{id},#{name},#{dealtype.id},#{flag})
+  </insert>
+  <insert id="insert" parameterType="com.baizhi.entity.Dealtype">
+    insert into jiuwen.jw_dealtype
+    values (#{id}, #{name},#{parentid} #{flag}
+      )
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.baizhi.entity.Dealtype">
+    update jiuwen.jw_dealtype
+    set name = #{name,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

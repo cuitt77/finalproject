@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+
+    <classPathEntry location="D:\maven\mysql\mysql-connector-java\5.0.5\mysql-connector-java-5.0.5.jar" />
+    <!--classPathEntry location="D:\zngkpt\m2\repository\mysql\mysql-connector-java\5.1.40\mysql-connector-java-5.1.40.jar" /-->
+    <context id="context1" targetRuntime="MyBatis3">
+
+        <commentGenerator>
+            <!-- 去除自动生成的注释 -->
+            <property name="suppressAllComments" value="true" />
+        </commentGenerator>
+
+        <!-- 数据库连接配置 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/jiuwen"
+                        userId="root"
+                        password="root" />
+        <!--jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/test"
+                        userId="root"
+                        password="mysql" /-->
+
+        <!-- 非必需，类型处理器，在数据库类型和java类型之间的转换控制-->
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!--配置生成的实体包
+            targetPackage：生成的实体包位置，默认存放在src目录下
+            targetProject：目标工程名
+         -->
+        <javaModelGenerator targetPackage="com.baizhi.entity"
+                            targetProject="src/main/java" />
+
+        <!-- 实体包对应映射文件位置及名称，默认存放在src目录下 -->
+        <sqlMapGenerator targetPackage="com.baizhi.mapper" targetProject="src/main/resources" />
+        <!--生成Dao类存放位置-->
+                 <javaClientGenerator type="XMLMAPPER" targetPackage="com.baizhi.dao" targetProject="src/main/java">
+                    <property name="enableSubPackages" value="true"/>
+                </javaClientGenerator>
+
+        <!-- 配置表
+            schema：不用填写
+            tableName: 表名
+            enableCountByExample、enableSelectByExample、enableDeleteByExample、enableUpdateByExample、selectByExampleQueryId：
+            去除自动生成的例子 <ignoreColumn column=""/>忽略外键
+        -->
+        <table schema="" tableName="jw_admin" domainObjectName="Admin" enableCountByExample="false" enableSelectByExample="false"
+               enableDeleteByExample="false" enableUpdateByExample="false" selectByExampleQueryId="false" >
+        </table>
+        <table schema="" tableName="jw_comment" domainObjectName="Comment" enableCountByExample="false" enableSelectByExample="false"
+               enableDeleteByExample="false" enableUpdateByExample="false" selectByExampleQueryId="false" >
+        <ignoreColumn column="orderid"/>
+        </table>
+        <table schema="" tableName="jw_deal" domainObjectName="Deal" enableCountByExample="false" enableSelectByExample="false"
+               enableDeleteByExample="false" enableUpdateByExample="false" selectByExampleQueryId="false" >
+            <ignoreColumn column="dealtypeid"/>
+        </table>
+        <table schema="" tableName="jw_dealtype" domainObjectName="Dealtype" enableCountByExample="false" enableSelectByExample="false"
+               enableDeleteByExample="false" enableUpdateByExample="false" selectByExampleQueryId="false" >
+            <ignoreColumn column="parentid"/>
+        </table>
+        <table schema="" tableName="jw_lawer" domainObjectName="Lawer" enableCountByExample="false" enableSelectByExample="false"
+               enableDeleteByExample="false" enableUpdateByExample="false" selectByExampleQueryId="false" >
+        </table>
+        <table schema="" tableName="jw_lawertype" domainObjectName="Lawertype" enableCountByExample="false" enableSelectByExample="false"
+               enableDeleteByExample="false" enableUpdateByExample="false" selectByExampleQueryId="false" >
+        </table>
+        <table schema="" tableName="jw_order" domainObjectName="Order" enableCountByExample="false" enableSelectByExample="false"
+               enableDeleteByExample="false" enableUpdateByExample="false" selectByExampleQueryId="false" >
+            <ignoreColumn column="lawerid"/>
+            <ignoreColumn column="userid"/>
+        </table>
+        <table schema="" tableName="jw_redpackage" domainObjectName="Redpackage" enableCountByExample="false" enableSelectByExample="false"
+               enableDeleteByExample="false" enableUpdateByExample="false" selectByExampleQueryId="false" >
+            <ignoreColumn column="lawerid"/>
+            <ignoreColumn column="userid"/>
+        </table>
+        <table schema="" tableName="jw_user" domainObjectName="User" enableCountByExample="false" enableSelectByExample="false"
+               enableDeleteByExample="false" enableUpdateByExample="false" selectByExampleQueryId="false" >
+        </table>
+
+
+
+
+
+    </context>
+</generatorConfiguration>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baizhi.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.baizhi.entity.User">
+  <id column="id" jdbcType="VARCHAR" property="id" />
+  <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="phone" property="phone"/>
+    <result column="money" property="money"/>
+  </resultMap>
+
+  <resultMap id="BaseResultMap1" type="com.baizhi.entity.User">
+    <id column="userid" jdbcType="VARCHAR" property="id" />
+    <result column="uname" jdbcType="VARCHAR" property="name" />
+    <collection property="lawers" javaType="java.util.List" ofType="com.baizhi.entity.Lawer">
+      <id column="lid" property="id"/>
+      <result column="lname" property="name"/>
+      <result column="lphone" property="phone"/>
+      <result column="address" property="address"/>
+      <result column="year" property="year"/>
+      <result column="number" property="number"/>
+      <result column="status" property="status"/>
+    </collection>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, phone, money
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jiuwen.jw_user
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectfavLawer" parameterType="String" resultMap="BaseResultMap1">
+SELECT u.id userid, u.name uname,
+	      l.id lid,l.name lname,l.phone lphone,address,year,number,status
+from jiuwen.jw_user u left join jiuwen.jw_favorite f on f.userid=u.id
+left join jiuwen.jw_lawer l on l.id=f.lawerid where u.id=#{id}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from jiuwen.jw_user
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from jiuwen.jw_user
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.baizhi.entity.User">
+    insert into jiuwen.jw_user (id, name, phone, 
+      money)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{money,jdbcType=DOUBLE})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.baizhi.entity.User">
+    update jiuwen.jw_user
+    set name = #{name,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      money = #{money,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

@@ -1,0 +1,38 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <parent>
+        <artifactId>baizhi_parent</artifactId>
+        <groupId>com.baizhi</groupId>
+        <version>1.0-RELEASE</version>
+        <relativePath>../baizhi_parent/pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>baizhi_jw_sys</artifactId>
+    <packaging>war</packaging>
+    <name>baizhi_jw_sys Maven Webapp</name>
+    <url>http://maven.apache.org</url>
+    <dependencies>
+        <dependency>
+            <groupId>com.baizhi</groupId>
+            <artifactId>baizhi_commons</artifactId>
+            <version>1.0-RELEASE</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <finalName>baizhi_jw_sys</finalName>
+        <plugins>
+            <!-- mybatis逆向工程 -->
+            <plugin>
+                <groupId>org.mybatis.generator</groupId>
+                <artifactId>mybatis-generator-maven-plugin</artifactId>
+                <version>1.3.2</version>
+                <configuration>
+                    <!--配置文件的位置-->
+                    <configurationFile>src/main/resources/Personal-GeneratorConfig.xml</configurationFile>
+                    <verbose>true</verbose>
+                    <overwrite>true</overwrite>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baizhi.dao.OrderMapper">
+  <resultMap id="BaseResultMap" type="com.baizhi.entity.Order">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+
+  <resultMap id="BaseResultMap1" type="com.baizhi.entity.Order">
+    <id column="oid" jdbcType="VARCHAR" property="id" />
+    <result column="ocontent" jdbcType="VARCHAR" property="content" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <association property="comment" javaType="com.baizhi.entity.Comment">
+      <id column="cid" property="id"/>
+      <result column="ccontent" property="content"/>
+      <result column="score" property="score"/>
+    </association>
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, content, type, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jiuwen.jw_order
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from jiuwen.jw_order
+  </select>
+  <select id="selectAllByuserid" parameterType="String" resultMap="BaseResultMap1">
+    SELECT o.id oid, o.content ocontent, type, status,
+					c.id cid,c.content ccontent,score
+from jiuwen.jw_order o
+left join jiuwen.jw_user u on u.id=o.userid
+left join jiuwen.jw_comment c on c.orderid=o.id
+where u.id=#{id}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from jiuwen.jw_order
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.baizhi.entity.Order">
+    insert into jiuwen.jw_order (id, content, type, 
+      status)
+    values (#{id,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.baizhi.entity.Order">
+    update jiuwen.jw_order
+    set content = #{content,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

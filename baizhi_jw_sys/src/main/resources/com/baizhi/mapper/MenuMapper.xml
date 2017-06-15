@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.MenuMapper" >
+  <resultMap id="BaseResultMap" type="com.baizhi.entity.Menu" >
+    <id column="oid" property="id" jdbcType="VARCHAR" />
+    <result column="oname" property="name" jdbcType="VARCHAR" />
+    <result column="ohref" property="href" jdbcType="VARCHAR" />
+    <result column="oiconCls" property="iconCls" jdbcType="VARCHAR" />
+   <collection property="child" javaType="list" ofType="com.baizhi.entity.Menu">
+     <id column="tid" property="id" jdbcType="VARCHAR" />
+     <result column="tname" property="name" jdbcType="VARCHAR" />
+     <result column="thref" property="href" jdbcType="VARCHAR" />
+     <result column="ticonCls" property="iconCls" jdbcType="VARCHAR" />
+   </collection>
+  </resultMap>
+
+  <select id="selectAll" resultMap="BaseResultMap" >
+   SELECT o.id oid,o.name oname,o.href ohref,o.iconCls oiconCls,
+			 t.id tid,t.name tname,t.href thref,t.iconCls ticonCls
+from jiuwen.jw_menu o join jiuwen.jw_menu t on o.id=t.parentid
+  </select>
+</mapper>
