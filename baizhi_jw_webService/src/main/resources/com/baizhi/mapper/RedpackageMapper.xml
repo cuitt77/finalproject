@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baizhi.dao.RedpackageMapper">
+  <resultMap id="BaseResultMap" type="com.baizhi.entity.Redpackage">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="redpackage" jdbcType="DECIMAL" property="redpackage" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+  </resultMap>
+  <resultMap id="BaseResultMap1" type="com.baizhi.entity.Redpackage">
+    <id column="lid" jdbcType="VARCHAR" property="id" />
+    <result column="redpackage" jdbcType="DECIMAL" property="redpackage" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <association property="user" javaType="com.baizhi.entity.User">
+      <id column="uid" property="id"/>
+      <result column="uname" property="name"/>
+    </association>
+    <association property="lawer" javaType="com.baizhi.entity.Lawer">
+      <id column="lid" property="id"/>
+      <result column="lname" property="name"/>
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, redpackage, content
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jiuwen.jw_redpackage
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectBylawerid" parameterType="String" resultMap="BaseResultMap1">
+SELECT l.id lid, redpackage, content ,u.id uid,u.name uname,l.id lid,l.name lname
+  from jiuwen.jw_redpackage r
+  left join jiuwen.jw_lawer l on l.id=r.lawerid
+ left join jiuwen.jw_user u on u.id=r.userid
+where l.id=#{id}
+  </select>
+  <select id="selectByuserid" parameterType="String" resultMap="BaseResultMap1">
+    SELECT l.id lid, redpackage, content ,u.id uid,u.name uname,l.id lid,l.name lname
+    from jiuwen.jw_redpackage r
+    left join jiuwen.jw_lawer l on l.id=r.lawerid
+    left join jiuwen.jw_user u on u.id=r.userid
+    where u.id=#{id}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from jiuwen.jw_redpackage
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.baizhi.entity.Redpackage">
+    insert into jiuwen.jw_redpackage values (#{id,jdbcType=VARCHAR}, #{redpackage,jdbcType=DECIMAL}, #{content,jdbcType=VARCHAR},#{lawer.id},#{user.id}
+      )
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.baizhi.entity.Redpackage">
+    update jiuwen.jw_redpackage
+    set redpackage = #{redpackage,jdbcType=DECIMAL},
+      content = #{content,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>
